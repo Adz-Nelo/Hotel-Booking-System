@@ -72,6 +72,10 @@ section {
     color: var(--main-color);
 }
 
+.header {
+    padding-bottom: 0;
+}
+
 .header .flex {
     display: flex;
     align-items: center;
@@ -118,9 +122,49 @@ section {
     color: var(--sub-color);
 }
 
+.home .box img {
+    border-radius: .5rem;
+    height: 80vh;
+    width: 100%;
+    object-fit: cover;
+}
 
+.home .box .flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
 
+.home .box .flex h3 {
+    font-size: 2.5rem;
+    color: var(--sub-color);
+    text-transform: capitalize;
+}
 
+.swiper-button-prev {
+    left: 0%;
+}
+
+.home .swiper-button-next {
+    right: 0;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    padding: 1rem 1rem;
+    background-color: var(--white);
+    border-radius: .5rem;
+    font-size: 2rem;
+} 
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    color: var(--main-color);
+    font-size: 2rem;
+}
 
 
 
@@ -166,7 +210,7 @@ section {
     }
 
     .header .navbar.active {
-        display: flex;
+        display: flex ;
     }
 }
 
