@@ -45,6 +45,7 @@ html {
 
 body {
     background-color: var(--main-color);
+    position: relative;
 }
 
 section {
@@ -64,6 +65,7 @@ section {
     text-transform: capitalize;
     transition: .2s linear;
     margin-top: 1rem;
+    background-color: var(--main-color);
 }
 
 .btn:hover {
@@ -74,6 +76,10 @@ section {
 
 .header {
     padding-bottom: 0;
+    position: sticky;
+    top: 0;
+    background-color: var(--main-color);
+    z-index: 1000;
 }
 
 .header .flex {
@@ -81,6 +87,7 @@ section {
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
+    padding: 1rem 2rem;
 }
 
 .header .flex .logo {
@@ -95,8 +102,13 @@ section {
 .header .flex .fa-bars {
     font-size: 3rem;
     cursor: pointer;
-    color: var(var(--sub-color));
+    color: var(--sub-color);
     display: none;
+    transition: transform 0.3s ease;
+}
+
+.header .flex .fa-bars.active {
+    transform: rotate(90deg);
 }
 
 .header .navbar {
@@ -104,10 +116,11 @@ section {
     align-items: center;
     justify-content: space-around;
     gap: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 0;
     background-color: var(--sub-color);
     padding: .5rem;
     border-radius: .5rem;
+    transition: all 0.3s ease;
 }
 
 .header .navbar a {
@@ -115,6 +128,7 @@ section {
     color: var(--main-color);
     padding: 1rem 3rem;
     border-radius: .5rem;
+    transition: all 0.3s ease;
 }
 
 .header .navbar a:hover {
@@ -148,7 +162,7 @@ section {
     left: 0%;
 }
 
-.home .swiper-button-next {
+.swiper-button-next {
     right: 0;
 }
 
@@ -158,6 +172,8 @@ section {
     background-color: var(--white);
     border-radius: .5rem;
     font-size: 2rem;
+    top: 40%;
+    opacity: .7;
 } 
 
 .swiper-button-next::after,
@@ -166,28 +182,85 @@ section {
     font-size: 2rem;
 }
 
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    opacity: 1;
+}
 
+.availability form .flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
 
+.availability form .flex .box {
+    flex: 1 1 20rem;   
+}
 
+.availability form .flex box p {
+    font-size: 2rem;
+    color: var(--sub-color);
+}
 
+.availability form .flex .box p {
+    font-size: 2rem;
+    color: var(--white);
+}
 
+.availability form .flex .box .input {
+    width: 100%;
+    padding: 1rem 0;
+    font-size: 1.8rem;
+    background-color: var(--main-color);
+    color: var(--white);
+    border-bottom: var(--border);
+    margin: 1rem 0;
+}
 
+.availability form .flex .box input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
 
+.about .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    text-align: center;
+    align-items: center;
+}
 
+.about .row .image {
+    flex: 1 1 40rem;
+}
 
+.about .row .image img {
+    width: 40rem;
+    border-radius: .5rem;
+}
 
+.about .row .content {
+    flex: 1 1 40rem;
+}
 
+.about .row .content h3 {
+    font-size: 3rem;
+    color: var(--sub-color);
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+}
 
+.about .row .content p {
+    line-height: 2;
+    padding: 1rem 0;
+    font-size: 1.7rem;
+    color: var(--sub-color);
+}
 
-
-
-
-
-
-
-
-
-
+.about .row.reverse {
+    flex-flow: row-reverse;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+}
 
 /* media queries */
 @media (max-width: 991px) {
@@ -204,18 +277,41 @@ section {
     }
 
     .header .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--sub-color);
+        border-top: var(--border);
         flex-flow: column;
         padding: 2rem;
-        display: none;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: clip-path 0.3s ease;
+        margin: 0 2rem;
+        border-radius: 0.5rem;
     }
 
     .header .navbar.active {
-        display: flex ;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .header .navbar a {
+        display: block;
+        margin: 1rem 0;
+        text-align: center;
+        width: 100%;
     }
 }
 
 @media (max-width: 768px) {
+    .home .box img {
+        height: 40vh;
+    }
 
+    .swiper-button-next,
+    .swiper-button-prev {
+        top: 35%;
+    }
 }
 
 @media (max-width: 450px) {
@@ -225,5 +321,17 @@ section {
 
     .header .flex .logo {
         font-size: 2rem;
+    }
+
+    .home .box img {
+        height: 25rem;
+    }
+
+    .about .row .image img {
+        width: 100%;
+    }
+
+    .header .navbar {
+        margin: 0 1rem;
     }
 }
