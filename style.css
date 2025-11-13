@@ -339,6 +339,13 @@ section {
     filter: invert(1);
 }
 
+.gallery img {
+    height: 40rem;
+    width: 60rem;
+    border-radius: .5rem;
+    object-fit: cover;
+}
+
 /* media queries */
 @media (max-width: 991px) {
     html {
