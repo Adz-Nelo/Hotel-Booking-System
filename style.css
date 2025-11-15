@@ -387,8 +387,82 @@ section {
 }
 
 .contact .row form .box::placeholder {
-    color: rgba(220, 198, 156, .3);
+    color: rgba(130, 68, 255, 0.6);
 }
+
+.contact .row form textarea {
+    height: 15rem;
+    resize: none;
+}
+
+.contact .row .faq .title {
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    color: var(--sub-color);
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.contact .row .faq .box {
+    border-radius: .5rem;
+    border: var(--border);
+    margin-top: 2rem;
+}
+
+.contact .row .faq .box h3 {
+    background-color: var(--sub-color);
+    color: var(--main-color);
+    padding: 1.5rem;
+    font-size: 2rem;
+    border-radius: .3rem;
+    cursor: pointer;
+}
+
+.contact .row .faq .box p {
+    padding: 1.5rem 2rem;
+    line-height: 2;
+    font-size: 1.7rem;
+    color: var(--sub-color);
+    display: none;
+}
+
+.contact .row .faq .box.active p {
+    display: inline-block;
+}
+
+.reviews {
+    padding-top: 0;
+}
+
+.reviews .box {
+    text-align: center;
+    user-select: none;
+    padding: 2rem;
+    margin-bottom: 4rem;
+}
+
+.reviews .box img {
+    height: 7rem;
+    width: 7rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: .5rem;
+}
+
+.reviews .box h3 {
+    margin: 1rem 0;
+    font-size: 2rem;
+    color: var(--sub-color);
+}
+
+.reviews .box p {
+    list-style: 2;
+    font-size: 1.7rem;
+    color: var(--sub-color);
+}
+
+
+
 
 /* media queries */
 @media (max-width: 991px) {

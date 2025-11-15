@@ -8,9 +8,16 @@ window.onscroll = () => {
     navbar.classList.toggle('active')
 }
 
+document.querySelectorAll('.contact .row .faq .box h3').forEach(faqBox => {
+    faqBox.onclick = () => {
+        faqBox.parentElement.classList.toggle('active')
+    }
+})
+
 let swiper = new Swiper(".home-slider", {
     loop: true,
     effect: "coverflow",
+    spaceBetween: 30,
     grabCursor: true,
     coverflowEffect: {
         rotate: 50,
@@ -40,5 +47,23 @@ let swiper2 = new Swiper(".gallery-slider", {
     },
     pagination: {
         el: ".swiper-pagination",
+    }
+})
+
+let swiper3 = new Swiper(".reviews-slider", {
+    loop: true,
+    slidesPerView: "auto",
+    grabCursor: true,
+    spaceBetween: 30,
+    pagination: {
+        el: ".swiper-pagination",
+    },
+    breakpoints: {
+        768: {
+            slidesPerView: 1,
+        },
+        991: {
+            slidesPerView: 2,
+        }
     }
 })
