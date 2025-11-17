@@ -1,3 +1,37 @@
+<?php 
+
+include("components/connect.php"); 
+
+if(isset($_COOKIE['user_id'])) {
+  $user_id = $_COOKIE['user_id'];
+} else {
+  setcookie('user_id', create_unique_id(), time() + 60*60*24*30, '/');
+  header('location:index.php');
+}
+
+if(isset($_POST['check_in'])) {
+  $check_in = $_POST['check_in'];
+  $check_in = filter_var($check_in, FILTER_SANITIZE_STRING);
+
+  $total_rooms = 0;
+
+  $check_bookings = $conn -> prepare("SELECT * FROM `bookings` WHERE check_in = ?");
+  $check_bookings -> execute([$check_in]);
+
+  while($fetch_bookings = $check_bookings -> fetch(PDO::FETCH_ASSOC)) {
+    $total_rooms += $fetch_bookings['rooms'];
+  }
+
+  // if the hotel has total 30 rooms
+  if($total_rooms >= 30) {
+    $warning_msg[] = "rooms are not available";
+  } else {
+    $success_msg[] = "rooms are available";
+  }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -523,6 +557,10 @@
     <!-- footer section ends -->
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="js/script.js" type="text/javascript"></script>
+
+    <?php include("components/message.php"); ?>
+
   </body>
 </html>
