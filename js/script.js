@@ -1,11 +1,15 @@
+// Fix the navbar toggle and scroll behavior
 let navbar = document.querySelector('.header .navbar')
+let menuBtn = document.querySelector('#menu-btn')
 
-document.querySelector('#menu-btn').onclick = () => {
+menuBtn.onclick = () => {
     navbar.classList.toggle('active')
+    menuBtn.classList.toggle('active')
 }
 
 window.onscroll = () => {
-    navbar.classList.toggle('active')
+    navbar.classList.remove('active')
+    menuBtn.classList.remove('active')
 }
 
 document.querySelectorAll('.contact .row .faq .box h3').forEach(faqBox => {
@@ -42,11 +46,12 @@ let swiper2 = new Swiper(".gallery-slider", {
         rotate: 0,
         stretch: 0,
         depth: 100,
-        modifier: 1,
-        slideShadows: false,
+        modifier: 2,
+        slideShadows: true,
     },
     pagination: {
         el: ".swiper-pagination",
+        clickable: true,
     }
 })
 

@@ -7,7 +7,7 @@
     <link rel="icon" href="img/MyLogo.webp" type="image/webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -290,12 +290,7 @@
             </select>
           </div>
         </div>
-        <input
-          type="submit"
-          value="check availability"
-          name="check"
-          class="btn"
-        />
+        <input type="submit" value="book now" name="check" class="btn" />
       </form>
     </section>
 
@@ -303,14 +298,27 @@
 
     <!-- gallery section starts -->
     <section class="gallery" id="gallery">
-      <div class="swiper2 gallery-slider">
+      <div class="swiper gallery-slider">
         <div class="swiper-wrapper">
-          <img src="img/gallery-img-1.webp" class="swiper-slide" alt="" />
-          <img src="img/gallery-img-2.webp" class="swiper-slide" alt="" />
-          <img src="img/gallery-img-3.webp" class="swiper-slide" alt="" />
-          <img src="img/gallery-img-4.webp" class="swiper-slide" alt="" />
-          <img src="img/gallery-img-5.webp" class="swiper-slide" alt="" />
-          <img src="img/gallery-img-6.webp" class="swiper-slide" alt="" />
+          <!-- Each image needs to be wrapped in swiper-slide div -->
+          <div class="swiper-slide">
+            <img src="img/gallery-img-1.webp" alt="Gallery image 1" />
+          </div>
+          <div class="swiper-slide">
+            <img src="img/gallery-img-2.webp" alt="Gallery image 2" />
+          </div>
+          <div class="swiper-slide">
+            <img src="img/gallery-img-3.webp" alt="Gallery image 3" />
+          </div>
+          <div class="swiper-slide">
+            <img src="img/gallery-img-4.webp" alt="Gallery image 4" />
+          </div>
+          <div class="swiper-slide">
+            <img src="img/gallery-img-5.webp" alt="Gallery image 5" />
+          </div>
+          <div class="swiper-slide">
+            <img src="img/gallery-img-6.webp" alt="Gallery image 6" />
+          </div>
         </div>
       </div>
       <div class="swiper-pagination"></div>
@@ -411,60 +419,60 @@
             <img src="img/pic-1.webp" alt="" />
             <h3>Dante</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-              ab, dolor veritatis, ea provident beatae sit quo nostrum aspernatur
-              fugiat rem tempore quibusdam iure animi repellendus delectus
-              repellat nemo culpa.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Recusandae ab, dolor veritatis, ea provident beatae sit quo
+              nostrum aspernatur fugiat rem tempore quibusdam iure animi
+              repellendus delectus repellat nemo culpa.
             </p>
           </div>
           <div class="swiper-slide box">
             <img src="img/pic-2.webp" alt="" />
             <h3>Vergil</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-              ab, dolor veritatis, ea provident beatae sit quo nostrum aspernatur
-              fugiat rem tempore quibusdam iure animi repellendus delectus
-              repellat nemo culpa.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Recusandae ab, dolor veritatis, ea provident beatae sit quo
+              nostrum aspernatur fugiat rem tempore quibusdam iure animi
+              repellendus delectus repellat nemo culpa.
             </p>
           </div>
           <div class="swiper-slide box">
             <img src="img/pic-3.webp" alt="" />
             <h3>Lady</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-              ab, dolor veritatis, ea provident beatae sit quo nostrum aspernatur
-              fugiat rem tempore quibusdam iure animi repellendus delectus
-              repellat nemo culpa.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Recusandae ab, dolor veritatis, ea provident beatae sit quo
+              nostrum aspernatur fugiat rem tempore quibusdam iure animi
+              repellendus delectus repellat nemo culpa.
             </p>
           </div>
           <div class="swiper-slide box">
             <img src="img/pic-4.webp" alt="" />
             <h3>Nero</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-              ab, dolor veritatis, ea provident beatae sit quo nostrum aspernatur
-              fugiat rem tempore quibusdam iure animi repellendus delectus
-              repellat nemo culpa.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Recusandae ab, dolor veritatis, ea provident beatae sit quo
+              nostrum aspernatur fugiat rem tempore quibusdam iure animi
+              repellendus delectus repellat nemo culpa.
             </p>
           </div>
           <div class="swiper-slide box">
             <img src="img/pic-5.webp" alt="" />
             <h3>Alpha</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-              ab, dolor veritatis, ea provident beatae sit quo nostrum aspernatur
-              fugiat rem tempore quibusdam iure animi repellendus delectus
-              repellat nemo culpa.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Recusandae ab, dolor veritatis, ea provident beatae sit quo
+              nostrum aspernatur fugiat rem tempore quibusdam iure animi
+              repellendus delectus repellat nemo culpa.
             </p>
           </div>
           <div class="swiper-slide box">
             <img src="img/pic-6.webp" alt="" />
             <h3>Lucia</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-              ab, dolor veritatis, ea provident beatae sit quo nostrum aspernatur
-              fugiat rem tempore quibusdam iure animi repellendus delectus
-              repellat nemo culpa.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Recusandae ab, dolor veritatis, ea provident beatae sit quo
+              nostrum aspernatur fugiat rem tempore quibusdam iure animi
+              repellendus delectus repellat nemo culpa.
             </p>
           </div>
         </div>
@@ -472,18 +480,24 @@
       </div>
     </section>
     <!-- review section ends -->
-    
+
     <!-- footer section starts -->
     <section class="footer">
       <div class="box-container">
         <div class="box">
-          <a href="tel:1234567890"><i class="fas fa-phone"></i> +123-456-7890</a>
+          <a href="tel:1234567890"
+            ><i class="fas fa-phone"></i> +123-456-7890</a
+          >
           <a href="tel:111223333"><i class="fas fa-phone"></i> +111-222-3333</a>
-          <a href="mailto:nelo.code155@gmail.com"><i class="fas fa-envelope"></i>
-          nelo.code155@gmail.com</a>
-          <a href="#"><i class="fas fa-map-marker-alt"></i> Negros Occidental, Philippines - 6100</a>
+          <a href="mailto:nelo.code155@gmail.com"
+            ><i class="fas fa-envelope"></i> nelo.code155@gmail.com</a
+          >
+          <a href="#"
+            ><i class="fas fa-map-marker-alt"></i> Negros Occidental,
+            Philippines - 6100</a
+          >
         </div>
-        
+
         <div class="box">
           <a href="#home">Home</a>
           <a href="#about">About</a>
@@ -497,17 +511,18 @@
           <a href="#">facebook <i class="fab fa-facebook-f"></i></a>
           <a href="#">twitter <i class="fab fa-twitter"></i></a>
           <a href="#">linkedin <i class="fab fa-linkedin"></i></a>
-          <a href="#">youtube <i class="fab fa-youtube"></i></a>          
+          <a href="#">youtube <i class="fab fa-youtube"></i></a>
         </div>
-
       </div>
 
-      <div class="credit">&copy; copyright @ 2025 by Nelo Code | all rights reserved</div>
+      <div class="credit">
+        &copy; copyright @ 2025 by Nelo Code | all rights reserved
+      </div>
     </section>
 
     <!-- footer section ends -->
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
-    <script src="script.js" type="text/javascript"></script>
+    <script src="js/script.js" type="text/javascript"></script>
   </body>
 </html>
