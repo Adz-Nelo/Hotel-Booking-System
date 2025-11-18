@@ -32,22 +32,14 @@ if(isset($_POST['check_in'])) {
 
 if(isset($_POST['book'])) {
   $booking_id = create_unique_id();
-  $name = $_POST['name'];
-  $name = filter_var($name, FILTER_SANITIZE_STRING);
-  $email = $_POST['email'];
-  $email = filter_var($email, FILTER_SANITIZE_STRING);
-  $number = $_POST['number'];
-  $number = filter_var($number, FILTER_SANITIZE_STRING);
-  $rooms = $_POST['name'];
-  $rooms = filter_var($name, FILTER_SANITIZE_STRING);
-  $check_in = $_POST['check_in'];
-  $check_in = filter_var($check_in, FILTER_SANITIZE_STRING);
-  $check_out = $_POST['check_out'];
-  $check_out = filter_var($check_out, FILTER_SANITIZE_STRING);
-  $adults = $_POST['adults'];
-  $adults = filter_var($adults, FILTER_SANITIZE_STRING);
-  $children = $_POST['children'];
-  $children = filter_Var($children, FILTER_SANITIZE_STRING);
+  $name = htmlspecialchars($_POST['name']);
+  $email = htmlspecialchars($_POST['email']);
+  $number = htmlspecialchars($_POST['number']);
+  $rooms = htmlspecialchars($_POST['rooms']);
+  $check_in = htmlspecialchars($_POST['check_in']);
+  $check_out = htmlspecialchars($_POST['check_out']);
+  $adults = htmlspecialchars($_POST['adults']);
+  $children = htmlspecialchars($_POST['children']);
 
   $total_rooms = 0;
 
@@ -61,11 +53,36 @@ if(isset($_POST['book'])) {
   if($total_rooms >= 30) {
     $warning_msg[] = "rooms are not available";
   } else {
-    $book_room = $conn -> prepare("INSERT INTO `bookings`(booking_id, user_id, name, email,
-      number, rooms, check_in, check_out, adults, children) VALUES(?,?,?,?,?,?,?,?,?,?");
-    $book_room -> execute([$booking_id, $user_id, $name, $email, $number, $rooms, $check_in,
-      $check_out, $adults, $children]);
-    $success_msg[] = "room booked successfully!";
+    // FIX: ADD THE MISSING PREPARED STATEMENT
+    $book_room = $conn -> prepare("INSERT INTO `bookings`(booking_id, user_id, name, email, number, rooms, check_in, check_out, adults, children) VALUES(?,?,?,?,?,?,?,?,?,?)");
+    
+    try {
+      $book_room -> execute([$booking_id, $user_id, $name, $email, $number, $rooms, $check_in, $check_out, $adults, $children]);
+      $success_msg[] = "room booked successfully!";
+    } catch (PDOException $e) {
+      $warning_msg[] = "Booking failed. Please try again.";
+    }
+  }
+}
+
+if(isset($_POST['send'])) {
+  $id = create_unique_id();
+  $name = htmlspecialchars($_POST['name']);
+  $email = htmlspecialchars($_POST['email']);
+  $number = htmlspecialchars($_POST['number']);
+  
+  // FIX: Check if 'message' exists in $_POST before using it
+  $message = isset($_POST['message']) ? htmlspecialchars($_POST['message']) : '';
+
+  $verify_message = $conn -> prepare("SELECT * FROM `messages` WHERE name = ? AND email = ? AND number = ? AND message = ?");
+  $verify_message -> execute([$name, $email, $number, $message]);
+  
+  if($verify_message -> rowCount() > 0) {
+      $warning_msg[] = "message sent already!";
+  } else {
+      $insert_message = $conn -> prepare("INSERT INTO `messages`(id, name, email, number, message) VALUES(?,?,?,?,?)");
+      $insert_message -> execute([$id, $name, $email, $number, $message]);
+      $success_msg[] = "message send successfully!";
   }
 }
 
@@ -81,14 +98,8 @@ if(isset($_POST['book'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
   </head>
   <body>
     <!-- header section start -->
@@ -96,11 +107,7 @@ if(isset($_POST['book'])) {
       <div class="flex">
         <a href="#home" class="logo">Hotels and Resorts</a>
         <a href="#availability" class="btn">Check Availability</a>
-        <div
-          id="menu-btn"
-          class="fas fa-bars"
-          style="color: var(--sub-color)"
-        ></div>
+        <div id="menu-btn" class="fas fa-bars" style="color: var(--sub-color)"></div>
       </div>
 
       <nav class="navbar">
@@ -151,16 +158,16 @@ if(isset($_POST['book'])) {
     <!-- home section ends -->
 
     <!-- availability section starts -->
-    <section class="availability" id="availability ">
+    <section class="availability" id="availability">
       <form action="" method="post">
         <div class="flex">
           <div class="box">
             <p>check in <span>*</span></p>
-            <input type="date" name="check-in" class="input" required />
+            <input type="date" name="check_in" class="input" required />
           </div>
           <div class="box">
             <p>check out <span>*</span></p>
-            <input type="date" name="check-out" class="input" required />
+            <input type="date" name="check_out" class="input" required />
           </div>
           <div class="box">
             <p>adults <span>*</span></p>
@@ -176,7 +183,7 @@ if(isset($_POST['book'])) {
           <div class="box">
             <p>children <span>*</span></p>
             <select name="children" class="input" required>
-              <option value="-">0 child</option>
+              <option value="0">0 child</option>
               <option value="1">1 child</option>
               <option value="2">2 children</option>
               <option value="3">3 children</option>
@@ -197,12 +204,7 @@ if(isset($_POST['book'])) {
             </select>
           </div>
         </div>
-        <input
-          type="submit"
-          value="check availability"
-          name="check"
-          class="btn"
-        />
+        <input type="submit" value="check availability" name="check_in" class="btn" />
       </form>
     </section>
 
@@ -322,23 +324,23 @@ if(isset($_POST['book'])) {
         <div class="flex">
           <div class="box">
             <p>full name<span>*</span></p>
-            <input type="text" name="fullname" class="input" required />
+            <input type="text" name="name" class="input" required />
           </div>
           <div class="box">
             <p>email <span>*</span></p>
-            <input type="email" name="check-in" class="input" required />
+            <input type="email" name="email" class="input" required />
           </div>
           <div class="box">
             <p>number<span>*</span></p>
-            <input type="text" name="check-in" class="input" pattern="\d{1,11}" maxlength="11" required onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+            <input type="text" name="number" class="input" pattern="\d{1,11}" maxlength="11" required onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
           </div>
           <div class="box">
             <p>check in <span>*</span></p>
-            <input type="date" name="check-in" class="input" required />
+            <input type="date" name="check_in" class="input" required />
           </div>
           <div class="box">
             <p>check out <span>*</span></p>
-            <input type="date" name="check-out" class="input" required />
+            <input type="date" name="check_out" class="input" required />
           </div>
           <div class="box">
             <p>adults <span>*</span></p>
@@ -354,7 +356,7 @@ if(isset($_POST['book'])) {
           <div class="box">
             <p>children <span>*</span></p>
             <select name="children" class="input" required>
-              <option value="-">0 child</option>
+              <option value="0">0 child</option>
               <option value="1">1 child</option>
               <option value="2">2 children</option>
               <option value="3">3 children</option>
@@ -375,7 +377,7 @@ if(isset($_POST['book'])) {
             </select>
           </div>
         </div>
-        <input type="submit" value="book now" name="check" class="btn" />
+        <input type="submit" value="book now" name="book" class="btn" />
       </form>
     </section>
 
@@ -385,7 +387,6 @@ if(isset($_POST['book'])) {
     <section class="gallery" id="gallery">
       <div class="swiper gallery-slider">
         <div class="swiper-wrapper">
-          <!-- Each image needs to be wrapped in swiper-slide div -->
           <div class="swiper-slide">
             <img src="img/gallery-img-1.webp" alt="Gallery image 1" />
           </div>
@@ -415,41 +416,10 @@ if(isset($_POST['book'])) {
       <div class="row">
         <form action="" method="post">
           <h3>send us message</h3>
-          <input
-            type="text"
-            name="name"
-            required
-            maxlength="50"
-            placeholder="enter your name"
-            class="box"
-          />
-          <input
-            type="email"
-            name="email"
-            required
-            maxlength="50"
-            placeholder="enter your email"
-            class="box"
-          />
-          <input
-            type="number"
-            name="number"
-            required
-            maxlength="10"
-            min="0"
-            max="9999999999"
-            placeholder="enter your number"
-            class="box"
-          />
-          <textarea
-            name="msg"
-            class="box"
-            required
-            maxlength="1000"
-            placeholder="enter your message"
-            cols="30"
-            rows="10"
-          ></textarea>
+          <input type="text" name="name" required maxlength="50" placeholder="enter your name" class="box" />
+          <input type="email" name="email" required maxlength="50" placeholder="enter your email" class="box" />
+          <input type="number" name="number" required maxlength="10" min="0" max="9999999999" placeholder="enter your number" class="box" />
+          <textarea name="message" class="box" required maxlength="1000" placeholder="enter your message" cols="30" rows="10"></textarea>
           <input type="submit" value="send message" name="send" class="btn" />
         </form>
 
@@ -570,17 +540,10 @@ if(isset($_POST['book'])) {
     <section class="footer">
       <div class="box-container">
         <div class="box">
-          <a href="tel:1234567890"
-            ><i class="fas fa-phone"></i> +123-456-7890</a
-          >
+          <a href="tel:1234567890"><i class="fas fa-phone"></i> +123-456-7890</a>
           <a href="tel:111223333"><i class="fas fa-phone"></i> +111-222-3333</a>
-          <a href="mailto:nelo.code155@gmail.com"
-            ><i class="fas fa-envelope"></i> nelo.code155@gmail.com</a
-          >
-          <a href="#"
-            ><i class="fas fa-map-marker-alt"></i> Negros Occidental,
-            Philippines - 6100</a
-          >
+          <a href="mailto:nelo.code155@gmail.com"><i class="fas fa-envelope"></i> nelo.code155@gmail.com</a>
+          <a href="#"><i class="fas fa-map-marker-alt"></i> Negros Occidental, Philippines - 6100</a>
         </div>
 
         <div class="box">
