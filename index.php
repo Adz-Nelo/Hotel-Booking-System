@@ -5,7 +5,7 @@ include("components/connect.php");
 if(isset($_COOKIE['user_id'])) {
   $user_id = $_COOKIE['user_id'];
 } else {
-  setcookie('user_id', create_unique_id(), time() + 60*60*24*30, '/');
+  setcookie('user_id', create_user_id(), time() + 60*60*24*30, '/');
   header('location:index.php');
 }
 
@@ -31,7 +31,7 @@ if(isset($_POST['check_in'])) {
 }
 
 if(isset($_POST['book'])) {
-  $booking_id = create_unique_id();
+  $booking_id = create_booking_id();
   $name = htmlspecialchars($_POST['name']);
   $email = htmlspecialchars($_POST['email']);
   $number = htmlspecialchars($_POST['number']);
@@ -66,7 +66,7 @@ if(isset($_POST['book'])) {
 }
 
 if(isset($_POST['send'])) {
-  $id = create_unique_id();
+  $id = create_user_id();
   $name = htmlspecialchars($_POST['name']);
   $email = htmlspecialchars($_POST['email']);
   $number = htmlspecialchars($_POST['number']);

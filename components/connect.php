@@ -1,22 +1,43 @@
 <?php
 
-$db_name = "mysql:host=localhost;dbname=hotel_db";
-$db_user_name = 'root';
-$db_user_pass = '';
+$host = "localhost";
+$dbname = "hotel_db";
+$db_username = 'root';
+$db_password = '';
 
-$conn = new PDO($db_name, $db_user_name, $db_user_pass);
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $db_username, $db_password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
 
-function create_unique_id() {
-    $str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-    $rand = array();
-    $length = strlen($str) - 1;
+function create_user_id() {
+    $consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'Z'];
+    $vowels = ['A', 'E', 'I', 'O', 'U'];
+    
+    // Create 3-letter pronounceable code
+    $code = $consonants[array_rand($consonants)] . 
+            $vowels[array_rand($vowels)] . 
+            $consonants[array_rand($consonants)];
+    
+    $numbers = rand(100, 999);
+    
+    return $code . $numbers;
+}
 
-    for($i = 0; $i < 20; $i++) {
-        $n = mt_rand(0, $length);
-        $rand[] = $str[$n];
-    }
-
-    return implode($rand);
+function create_booking_id() {
+    $consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'Z'];
+    $vowels = ['A', 'E', 'I', 'O', 'U'];
+    
+    // Create 3-letter pronounceable code
+    $code = $consonants[array_rand($consonants)] . 
+            $vowels[array_rand($vowels)] . 
+            $consonants[array_rand($consonants)];
+    
+    $numbers = rand(1000, 9999);
+    
+    return $code . $numbers;
 }
 
 ?>
