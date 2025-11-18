@@ -30,6 +30,45 @@ if(isset($_POST['check_in'])) {
   }
 }
 
+if(isset($_POST['book'])) {
+  $booking_id = create_unique_id();
+  $name = $_POST['name'];
+  $name = filter_var($name, FILTER_SANITIZE_STRING);
+  $email = $_POST['email'];
+  $email = filter_var($email, FILTER_SANITIZE_STRING);
+  $number = $_POST['number'];
+  $number = filter_var($number, FILTER_SANITIZE_STRING);
+  $rooms = $_POST['name'];
+  $rooms = filter_var($name, FILTER_SANITIZE_STRING);
+  $check_in = $_POST['check_in'];
+  $check_in = filter_var($check_in, FILTER_SANITIZE_STRING);
+  $check_out = $_POST['check_out'];
+  $check_out = filter_var($check_out, FILTER_SANITIZE_STRING);
+  $adults = $_POST['adults'];
+  $adults = filter_var($adults, FILTER_SANITIZE_STRING);
+  $children = $_POST['children'];
+  $children = filter_Var($children, FILTER_SANITIZE_STRING);
+
+  $total_rooms = 0;
+
+  $check_bookings = $conn -> prepare("SELECT * FROM `bookings` WHERE check_in = ?");
+  $check_bookings -> execute([$check_in]);
+
+  while($fetch_bookings = $check_bookings -> fetch(PDO::FETCH_ASSOC)) {
+    $total_rooms += $fetch_bookings['rooms'];
+  }
+
+  if($total_rooms >= 30) {
+    $warning_msg[] = "rooms are not available";
+  } else {
+    $book_room = $conn -> prepare("INSERT INTO `bookings`(booking_id, user_id, name, email,
+      number, rooms, check_in, check_out, adults, children) VALUES(?,?,?,?,?,?,?,?,?,?");
+    $book_room -> execute([$booking_id, $user_id, $name, $email, $number, $rooms, $check_in,
+      $check_out, $adults, $children]);
+    $success_msg[] = "room booked successfully!";
+  }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -281,6 +320,18 @@ if(isset($_POST['check_in'])) {
       <form action="" method="post">
         <h3>make a reservation</h3>
         <div class="flex">
+          <div class="box">
+            <p>full name<span>*</span></p>
+            <input type="text" name="fullname" class="input" required />
+          </div>
+          <div class="box">
+            <p>email <span>*</span></p>
+            <input type="email" name="check-in" class="input" required />
+          </div>
+          <div class="box">
+            <p>number<span>*</span></p>
+            <input type="text" name="check-in" class="input" pattern="\d{1,11}" maxlength="11" required onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+          </div>
           <div class="box">
             <p>check in <span>*</span></p>
             <input type="date" name="check-in" class="input" required />
