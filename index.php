@@ -5,13 +5,15 @@ include("components/connect.php");
 if(isset($_COOKIE['user_id'])) {
   $user_id = $_COOKIE['user_id'];
 } else {
-  setcookie('user_id', create_user_id(), time() + 60*60*24*30, '/');
+  $user_id = create_user_id(); // Use the new clean function
+  setcookie('user_id', $user_id, time() + 60*60*24*30, '/');
   header('location:index.php');
+  exit; // Add this to stop script execution
 }
 
 if(isset($_POST['check_in'])) {
   $check_in = $_POST['check_in'];
-  $check_in = filter_var($check_in, FILTER_SANITIZE_STRING);
+  $check_in = htmlspecialchars($check_in);
 
   $total_rooms = 0;
 
@@ -42,18 +44,28 @@ if(isset($_POST['book'])) {
   $children = htmlspecialchars($_POST['children']);
 
   $total_rooms = 0;
+  $user_booked_rooms = 0;
 
   $check_bookings = $conn -> prepare("SELECT * FROM `bookings` WHERE check_in = ?");
   $check_bookings -> execute([$check_in]);
 
   while($fetch_bookings = $check_bookings -> fetch(PDO::FETCH_ASSOC)) {
     $total_rooms += $fetch_bookings['rooms'];
+    
+    // Check if this user already has bookings for this date
+    if($fetch_bookings['email'] == $email || $fetch_bookings['number'] == $number) {
+      $user_booked_rooms += $fetch_bookings['rooms'];
+    }
   }
 
-  if($total_rooms >= 30) {
-    $warning_msg[] = "rooms are not available";
+  // Check if user is trying to book more than available rooms
+  if($user_booked_rooms + $rooms > 6) { // Assuming max 6 rooms per user
+    $warning_msg[] = "You can only book maximum 6 rooms per check-in date!";
+  } 
+  // Check if hotel has enough rooms
+  else if($total_rooms + $rooms > 30) {
+    $warning_msg[] = "Only " . (30 - $total_rooms) . " rooms available for this date!";
   } else {
-    // FIX: ADD THE MISSING PREPARED STATEMENT
     $book_room = $conn -> prepare("INSERT INTO `bookings`(booking_id, user_id, name, email, number, rooms, check_in, check_out, adults, children) VALUES(?,?,?,?,?,?,?,?,?,?)");
     
     try {
@@ -117,6 +129,7 @@ if(isset($_POST['send'])) {
         <a href="#gallery">Gallery</a>
         <a href="#contact">Contacts</a>
         <a href="#reviews">Reviews</a>
+        <a href="#bookings">bookings</a>
       </nav>
     </section>
     <!-- header section ends -->
