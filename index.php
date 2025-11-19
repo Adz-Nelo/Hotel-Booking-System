@@ -43,36 +43,33 @@ if(isset($_POST['book'])) {
   $adults = htmlspecialchars($_POST['adults']);
   $children = htmlspecialchars($_POST['children']);
 
-  $total_rooms = 0;
-  $user_booked_rooms = 0;
-
-  $check_bookings = $conn -> prepare("SELECT * FROM `bookings` WHERE check_in = ?");
-  $check_bookings -> execute([$check_in]);
-
-  while($fetch_bookings = $check_bookings -> fetch(PDO::FETCH_ASSOC)) {
-    $total_rooms += $fetch_bookings['rooms'];
-    
-    // Check if this user already has bookings for this date
-    if($fetch_bookings['email'] == $email || $fetch_bookings['number'] == $number) {
-      $user_booked_rooms += $fetch_bookings['rooms'];
-    }
-  }
-
-  // Check if user is trying to book more than available rooms
-  if($user_booked_rooms + $rooms > 6) { // Assuming max 6 rooms per user
-    $warning_msg[] = "You can only book maximum 6 rooms per check-in date!";
-  } 
-  // Check if hotel has enough rooms
-  else if($total_rooms + $rooms > 30) {
-    $warning_msg[] = "Only " . (30 - $total_rooms) . " rooms available for this date!";
+  // Check for ANY existing booking with same email OR phone number
+  $check_duplicate = $conn->prepare("SELECT * FROM `bookings` WHERE email = ? OR number = ?");
+  $check_duplicate->execute([$email, $number]);
+  
+  if($check_duplicate->rowCount() > 0) {
+    $warning_msg[] = "A booking with this email or phone number already exists!";
   } else {
-    $book_room = $conn -> prepare("INSERT INTO `bookings`(booking_id, user_id, name, email, number, rooms, check_in, check_out, adults, children) VALUES(?,?,?,?,?,?,?,?,?,?)");
-    
-    try {
-      $book_room -> execute([$booking_id, $user_id, $name, $email, $number, $rooms, $check_in, $check_out, $adults, $children]);
-      $success_msg[] = "room booked successfully!";
-    } catch (PDOException $e) {
-      $warning_msg[] = "Booking failed. Please try again.";
+    $total_rooms = 0;
+
+    $check_bookings = $conn -> prepare("SELECT * FROM `bookings` WHERE check_in = ?");
+    $check_bookings -> execute([$check_in]);
+
+    while($fetch_bookings = $check_bookings -> fetch(PDO::FETCH_ASSOC)) {
+      $total_rooms += $fetch_bookings['rooms'];
+    }
+
+    if($total_rooms + $rooms > 30) {
+      $warning_msg[] = "Only " . (30 - $total_rooms) . " rooms available for this date!";
+    } else {
+      $book_room = $conn -> prepare("INSERT INTO `bookings`(booking_id, user_id, name, email, number, rooms, check_in, check_out, adults, children) VALUES(?,?,?,?,?,?,?,?,?,?)");
+      
+      try {
+        $book_room -> execute([$booking_id, $user_id, $name, $email, $number, $rooms, $check_in, $check_out, $adults, $children]);
+        $success_msg[] = "room booked successfully!";
+      } catch (PDOException $e) {
+        $warning_msg[] = "Booking failed. Please try again.";
+      }
     }
   }
 }
