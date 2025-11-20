@@ -12,32 +12,46 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-function create_user_id() {
+function create_user_id($conn) {
     $consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'Z'];
     $vowels = ['A', 'E', 'I', 'O', 'U'];
     
-    // Create 3-letter pronounceable code
-    $code = $consonants[array_rand($consonants)] . 
-            $vowels[array_rand($vowels)] . 
-            $consonants[array_rand($consonants)];
+    do {
+        $code = $consonants[array_rand($consonants)] . 
+                $vowels[array_rand($vowels)] . 
+                $consonants[array_rand($consonants)];
+        
+        $numbers = rand(100, 999);
+        $user_id = $code . $numbers;
+        
+        // Check if this ID already exists in database
+        $check_id = $conn->prepare("SELECT user_id FROM bookings WHERE user_id = ?");
+        $check_id->execute([$user_id]);
+        
+    } while($check_id->rowCount() > 0);
     
-    $numbers = rand(100, 999);
-    
-    return $code . $numbers;
+    return $user_id;
 }
 
-function create_booking_id() {
+function create_booking_id($conn) {
     $consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'Z'];
     $vowels = ['A', 'E', 'I', 'O', 'U'];
     
-    // Create 3-letter pronounceable code
-    $code = $consonants[array_rand($consonants)] . 
-            $vowels[array_rand($vowels)] . 
-            $consonants[array_rand($consonants)];
+    do {
+        $code = $consonants[array_rand($consonants)] . 
+                $vowels[array_rand($vowels)] . 
+                $consonants[array_rand($consonants)];
+        
+        $numbers = rand(1000, 9999);
+        $booking_id = $code . $numbers;
+        
+        // Check if this ID already exists in database
+        $check_id = $conn->prepare("SELECT booking_id FROM bookings WHERE booking_id = ?");
+        $check_id->execute([$booking_id]);
+        
+    } while($check_id->rowCount() > 0);
     
-    $numbers = rand(1000, 9999);
-    
-    return $code . $numbers;
+    return $booking_id;
 }
 
 ?>

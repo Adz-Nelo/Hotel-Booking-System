@@ -5,7 +5,7 @@ include("components/connect.php");
 if(isset($_COOKIE['user_id'])) {
   $user_id = $_COOKIE['user_id'];
 } else {
-  $user_id = create_user_id(); // Use the new clean function
+  $user_id = create_user_id($conn); // Use the new clean function
   setcookie('user_id', $user_id, time() + 60*60*24*30, '/');
   header('location:index.php');
   exit; // Add this to stop script execution
@@ -33,7 +33,8 @@ if(isset($_POST['check_in'])) {
 }
 
 if(isset($_POST['book'])) {
-  $booking_id = create_booking_id();
+  $booking_id = create_booking_id($conn);
+  $user_id = create_user_id($conn); 
   $name = htmlspecialchars($_POST['name']);
   $email = htmlspecialchars($_POST['email']);
   $number = htmlspecialchars($_POST['number']);
@@ -67,6 +68,7 @@ if(isset($_POST['book'])) {
       try {
         $book_room -> execute([$booking_id, $user_id, $name, $email, $number, $rooms, $check_in, $check_out, $adults, $children]);
         $success_msg[] = "room booked successfully!";
+        setcookie('user_email', $email, time() + 60*60*24*30, '/');
       } catch (PDOException $e) {
         $warning_msg[] = "Booking failed. Please try again.";
       }
@@ -75,7 +77,7 @@ if(isset($_POST['book'])) {
 }
 
 if(isset($_POST['send'])) {
-  $id = create_user_id();
+  $id = create_user_id($conn);
   $name = htmlspecialchars($_POST['name']);
   $email = htmlspecialchars($_POST['email']);
   $number = htmlspecialchars($_POST['number']);
@@ -111,25 +113,8 @@ if(isset($_POST['send'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
   </head>
   <body>
-    <!-- header section start -->
-    <section class="header">
-      <div class="flex">
-        <a href="#home" class="logo">Hotels and Resorts</a>
-        <a href="#availability" class="btn">Check Availability</a>
-        <div id="menu-btn" class="fas fa-bars" style="color: var(--sub-color)"></div>
-      </div>
 
-      <nav class="navbar">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#reservation">Reservation</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#contact">Contacts</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#bookings">bookings</a>
-      </nav>
-    </section>
-    <!-- header section ends -->
+    <?php include("components/user_header.php"); ?>
 
     <!-- home section starts -->
     <section class="home" id="home">
@@ -546,39 +531,7 @@ if(isset($_POST['send'])) {
     </section>
     <!-- review section ends -->
 
-    <!-- footer section starts -->
-    <section class="footer">
-      <div class="box-container">
-        <div class="box">
-          <a href="tel:1234567890"><i class="fas fa-phone"></i> +123-456-7890</a>
-          <a href="tel:111223333"><i class="fas fa-phone"></i> +111-222-3333</a>
-          <a href="mailto:nelo.code155@gmail.com"><i class="fas fa-envelope"></i> nelo.code155@gmail.com</a>
-          <a href="#"><i class="fas fa-map-marker-alt"></i> Negros Occidental, Philippines - 6100</a>
-        </div>
-
-        <div class="box">
-          <a href="#home">Home</a>
-          <a href="#about">About</a>
-          <a href="#reservation">Reservation</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#contact">Contacts</a>
-          <a href="#reviews">Reviews</a>
-        </div>
-
-        <div class="box">
-          <a href="#">facebook <i class="fab fa-facebook-f"></i></a>
-          <a href="#">twitter <i class="fab fa-twitter"></i></a>
-          <a href="#">linkedin <i class="fab fa-linkedin"></i></a>
-          <a href="#">youtube <i class="fab fa-youtube"></i></a>
-        </div>
-      </div>
-
-      <div class="credit">
-        &copy; copyright @ 2025 by Nelo Code | all rights reserved
-      </div>
-    </section>
-
-    <!-- footer section ends -->
+    <?php include("components/footer.php"); ?>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
