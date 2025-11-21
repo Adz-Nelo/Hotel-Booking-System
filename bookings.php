@@ -1,14 +1,16 @@
 <?php 
-include("components/connect.php"); 
 
-if(isset($_COOKIE['user_email'])) {
-  $user_email = $_COOKIE['user_email'];
-  $select_bookings = $conn -> prepare("SELECT * FROM `bookings` WHERE email = ?");
-  $select_bookings -> execute([$user_email]);
+// include("components/connect.php"); 
+
+if(isset($_COOKIE['user_id'])) {
+  $user_id = $_COOKIE['user_id'];
 } else {
-  echo '<p class="empty">Please make a booking first!</p>';
-  exit;
+  $user_id = create_user_id($conn); // Use the new clean function
+  setcookie('user_id', $user_id, time() + 60*60*24*30, '/');
+  header('location:index.php');
+  exit; // Add this to stop script execution
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -30,36 +32,42 @@ if(isset($_COOKIE['user_email'])) {
 
     <!-- booking section starts -->
     <section class="bookings">
-        <h1 class="heading">my bookings</h1>
-        <div class="box-container">
-            
+      <h1 class="headings">my bookings</h1>
+
+      <div class="box-container">
         <?php
-            // REMOVED the duplicate query preparation here
-            if($select_bookings -> rowCount() > 0) {  // FIXED: Check rowCount, not execute
-                while($fetch_bookings = $select_bookings -> fetch(PDO::FETCH_ASSOC)) {
-        ?>
+          $select_bookings = $conn -> prepare("SELECT * FROM `bookings` WHERE user_id = ?");
+          $select_bookings -> execute([$user_id]);
 
+          if($select_bookings -> rowCount() > 0) {
+            while($fetch_booking = $select_bookings -> fetch(PDO::FETCH_ASSOC)) {
+        ?>
+        
         <div class="box">
-            <p>name : <span><?= $fetch_bookings['name'] ?></span></p>
-            <p>email : <span><?= $fetch_bookings['email'] ?></span></p>
-            <p>check in : <span><?= $fetch_bookings['check_in'] ?></span></p>
-            <p>check out : <span><?= $fetch_bookings['check_out'] ?></span></p>
-            <p>rooms : <span><?= $fetch_bookings['rooms'] ?></span></p>
-            <p>adults : <span><?=  $fetch_bookings['adults'] ?></span></p>
-            <p>children : <span><?=  $fetch_bookings['children'] ?></span></p>
-            <p>booking id : <span><?= $fetch_bookings['booking_id'] ?></span></p>
+          <p>name : <span><?=  $fetch_booking['name']; ?></span></p>
+          <p>email : <span><?=  $fetch_booking['email']; ?></span></p>
+          <p>number : <span><?=  $fetch_booking['number']; ?></span></p>
+          <p>check in : <span><?=  $fetch_booking['check_in']; ?></span></p>
+          <p>check out : <span><?=  $fetch_booking['check_out']; ?></span></p>
+          <p>rooms : <span><?=  $fetch_booking['rooms']; ?></span></p>
+          <p>adults : <span><?=  $fetch_booking['adults']; ?></span></p>
+          <p>children : <span><?=  $fetch_booking['children']; ?></span></p> 
+          <p>booking iD : <span><?=  $fetch_booking['booking_id']; ?></span></p>
         </div>
 
-        <?php 
-                }
-            } else {
-                echo '<p class="empty">no bookings found!</p>';  // FIXED: Added message
-            }
+        <?php
+          }
+        } else {
         ?>
-
+        <div class="box" style="text-align: center;">
+          <p>no bookings found!</p>
+          <a href="index.php#reservation">book new</a>
         </div>
+        <?php
+        } ?>
+      </div>
     </section>
-    
+
     <!-- booking section ends -->
 
     <?php include("components/footer.php"); ?>

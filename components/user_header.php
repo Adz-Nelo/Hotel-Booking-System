@@ -7,13 +7,13 @@
     </div>
 
     <nav class="navbar">
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#reservation">Reservation</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#contact">Contacts</a>
-    <a href="#reviews">Reviews</a>
-    <a href="#bookings">bookings</a>
+    <a href="index.php#home">Home</a>
+    <a href="index.php#about">About</a>
+    <a href="index.php#reservation">Reservation</a>
+    <a href="index.php#gallery">Gallery</a>
+    <a href="index.php#contact">Contacts</a>
+    <a href="index.php#reviews">Reviews</a>
+    <a href="bookings.php">bookings</a>
     </nav>
 </section>
 <!-- header section ends -->
