@@ -461,12 +461,6 @@ section {
     margin-bottom: 4rem;
 }
 
-.bookings .headings {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--sub-color);
-}
-
 .reviews .box img {
     height: 7rem;
     width: 7rem;

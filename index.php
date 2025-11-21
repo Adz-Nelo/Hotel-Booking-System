@@ -1,14 +1,14 @@
 <?php 
 
-include("components/connect.php"); 
+include_once("components/connect.php"); 
 
 if(isset($_COOKIE['user_id'])) {
   $user_id = $_COOKIE['user_id'];
 } else {
-  $user_id = create_user_id($conn); // Use the new clean function
-  setcookie('user_id', $user_id, time() + 60*60*24*30, '/');
+  $user_id = create_user_id($conn);
+  setcookie('user_id', $user_id, time() + 60*60*24*30, '/'); // ✅ Keep this line!
   header('location:index.php');
-  exit; // Add this to stop script execution
+  exit;
 }
 
 if(isset($_POST['check_in'])) {
