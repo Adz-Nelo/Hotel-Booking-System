@@ -1,3 +1,16 @@
+<?php
+
+include("../components/connect.php");
+
+if(isset($_COOKIE['admin_id'])) {
+    $admin_id = $_COOKIE['admin_id'];
+} else {
+    $admin_id = '';
+    header('location:login.php');
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
