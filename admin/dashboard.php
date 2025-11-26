@@ -7,6 +7,7 @@ if(isset($_COOKIE['admin_id'])) {
 } else {
     $admin_id = '';
     header('location:login.php');
+    exit;
 }
 
 ?>

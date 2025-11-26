@@ -2,33 +2,20 @@
 
 include("../components/connect.php");
 
-if(isset($_COOKIE['admin_id'])) {
-    $admin_id = $_COOKIE['admin_id'];
-} else {
-    $admin_id = '';
-    header('location:login.php');
-}
-
 if(isset($_POST['submit'])) {
-    $id = create_user_id($conn);
-
     $name = htmlspecialchars($_POST['name']);
     $password = htmlspecialchars($_POST['password']);
-    $confirm_password = htmlspecialchars($_POST['confirm_password']);
 
-    $select_admins = $conn -> prepare("SELECT * FROM `admins` WHERE name = ?");
-    $select_admins -> execute([$name]);
+    $select_admins = $conn -> prepare("SELECT * FROM `admins` WHERE name = ? AND password = ? LIMIT 1");
+    $select_admins -> execute([$name, $password]);
+
+    $row = $select_admins -> fetch(PDO::FETCH_ASSOC);
 
     if($select_admins -> rowCount() > 0) {
-        $warning_msg[] = 'Username already taken!';
+        setcookie('admin_id', $row['id'], time() + 60*60*24*30, '/');
+        header('location:dashboard.php');
     } else {
-        if($password != $confirm_password) {
-            $warning_msg[] = 'Password not matched!';
-        } else {
-            $insert_admin = $conn -> prepare("INSERT INTO `admins` (id, name, password) VALUES(?,?,?)");
-            $insert_admin -> execute([$id, $name, $confirm_password]);
-            $success_msg[] = 'Registered successfully!';
-        }
+        $warning_msg[] = 'Incorrect username or password!';
     }
 }
 
@@ -39,30 +26,24 @@ if(isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Login</title>
 
     <link rel="stylesheet" href="../css/admin_style.css">
     
 </head>
 <body>
-    <!-- header section starts -->
-    <?php include("../components/admin_header.php"); ?>
-    <!-- header section ends -->
-
-    <!-- register section starts  -->
-    <section class="form-container">
+    <!-- login section starts  -->
+    <section class="form-container" style="min-height: 100vh;">
         <form action="" method="POST">
-            <h3>register new</h3>
+            <h3>welcome back!</h3>
             <input type="text" name="name" placeholder="enter username" maxlength="20" 
             class="box" required oninput="this.value = this.value.replace(/\s/g, '')">
             <input type="password" name="password" placeholder="enter password" maxlength="20" 
             class="box" required oninput="this.value = this.value.replace(/\s/g, '')">
-            <input type="password" name="confirm_password" placeholder="confirm password" maxlength="20" 
-            class="box" required oninput="this.value = this.value.replace(/\s/g, '')">
-            <input type="submit" value="register now" name="submit" class="btn">
+            <input type="submit" value="login now" name="submit" class="btn">
         </form>
     </section>
-    <!-- register section ends -->
+    <!-- login section ends -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="../js/admin_script.js" type="text/javascript"></script>
