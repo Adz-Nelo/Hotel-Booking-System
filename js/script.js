@@ -18,6 +18,12 @@ document.querySelectorAll('.contact .row .faq .box h3').forEach(faqBox => {
     }
 })
 
+document.querySelectorAll('input[type="number"]').forEach(inputNumber => {
+    inputNumber.oninput = () => {
+        if (inputNumber.value.length > inputNumber.maxLength) inputNumber.value = inputNumber.value.slice(0, inputNumber.maxLength)
+    }
+})
+
 let swiper = new Swiper(".home-slider", {
     loop: true,
     effect: "coverflow",

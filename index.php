@@ -149,7 +149,6 @@ if(isset($_POST['send'])) {
         <div class="swiper-button-prev"></div>
       </div>
     </section>
-
     <!-- home section ends -->
 
     <!-- availability section starts -->

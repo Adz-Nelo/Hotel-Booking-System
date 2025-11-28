@@ -1,4 +1,4 @@
-<header class="header">
+<header class="header">    
     <section class="flex">
         <a href="dashboard.php" class="logo">AdminPanel.</a>
 
@@ -12,7 +12,7 @@
             <a href="../components/admin_logout.php" onclick="return confirm('logout from this website?')">logout</a>
         </nav>
 
-        <!-- <div id="menu-btn" class="fas fa-bars"></div> -->
+        <div id="menu-btn" class="fas fa-bars"></div>
     </section>
 </header>
 
