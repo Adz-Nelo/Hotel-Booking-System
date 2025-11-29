@@ -36,6 +36,7 @@ if(isset($_POST['submit'])) {
     <section class="form-container" style="min-height: 100vh;">
         <form action="" method="POST">
             <h3>welcome back!</h3>
+            <p>default username = <span>admin</span> and password = <span>123</span></p>
             <input type="text" name="name" placeholder="enter username" maxlength="20" 
             class="box" required oninput="this.value = this.value.replace(/\s/g, '')">
             <input type="password" name="password" placeholder="enter password" maxlength="20" 

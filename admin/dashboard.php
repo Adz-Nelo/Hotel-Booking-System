@@ -27,6 +27,73 @@ if(isset($_COOKIE['admin_id'])) {
     <?php include("../components/admin_header.php"); ?>
     <!-- header section ends -->
 
+    <!-- dashboard section starts -->
+   <section class="dashboard">
+    <h1 class="heading">dashboard</h1>
+
+    <div class="box-container">
+        <div class="box">
+            <?php
+                $select_profile = $conn -> prepare("SELECT * FROM `admins` WHERE id = ? LIMIT 1");
+                $select_profile -> execute([$admin_id]);
+
+                $fetch_profile = $select_profile -> fetch(PDO::FETCH_ASSOC);
+            ?>
+
+            <h3>welcome!</h3>
+            <p><?= $fetch_profile['name']; ?></p>
+            <a href="update.php" class="btn">update profile</a>
+        </div>
+
+        <div class="box">
+            <?php
+                $select_bookings = $conn -> prepare("SELECT * FROM `bookings`");
+                $select_bookings -> execute();
+
+                $count_bookings = $select_bookings -> rowCount();
+            ?>
+
+            <h3><?= $count_bookings; ?></h3>
+            <p>total bookings</p>
+            <a href="bookings.php" class="btn">view bookings</a>
+        </div>
+
+        <div class="box">
+            <?php
+                $select_admins = $conn -> prepare("SELECT * FROM `admins`");
+                $select_admins -> execute();
+
+                $count_admins = $select_admins -> rowCount();
+            ?>
+
+            <h3><?= $count_admins; ?></h3>
+            <p>total admins</p>
+            <a href="admins.php" class="btn">view admins</a>
+        </div>
+
+        <div class="box">
+            <?php
+                $select_messages = $conn -> prepare("SELECT * FROM `messages`");
+                $select_messages -> execute();
+
+                $count_messages = $select_messages -> rowCount();
+            ?>
+
+            <h3><?= $count_messages; ?></h3>
+            <p>total messages</p>
+            <a href="messages.php" class="btn">view messages</a>
+        </div>
+
+        <div class="box">
+            <h3>quick select</h3>
+            <p>login or register</p>
+            <a href="login.php" class="btn" style="margin-right: 1rem;">login</a>
+            <a href="register.php" class="btn" style="margin-left: 1rem;">register</a>
+        </div>
+    </div>
+   </section>      
+    <!-- dashboard section ends -->
+
     <script src="../js/admin_script.js" type="text/javascript"></script>
 </body>
 </html>
