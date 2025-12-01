@@ -202,14 +202,14 @@ section {
 .grid .box-container .box {
     border-radius: .5rem;
     padding: 2rem;
-    padding-top: .5rem;
+    padding-top: 1rem; 
     border: var(--border);
     overflow-x: hidden;
 }
 
 .grid .box-container .box p {
     line-height: 1.5;
-    padding-top: 1rem;
+    padding: .5rem 0;
     font-size: 1.8rem;
     color: var(--sub-color);
     white-space: pre-line;
@@ -273,6 +273,10 @@ section {
 
     .dashboard .box-container {
         display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .grid .box-container {
         grid-template-columns: 1fr;
     }
 }

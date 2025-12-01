@@ -23,7 +23,7 @@ if (isset($_POST['delete'])) {
 
         $success_msg[] = 'Booking deleted successfully!';
     } else {
-        $warning_msg[] = 'booking deleted already!';
+        $warning_msg[] = 'Booking deleted already!';
     }
 }
 
