@@ -96,6 +96,7 @@ $select_bookings -> execute();
         ?>
         
         <div class="box">
+          <p>booking ID : <span><?= $fetch_booking['booking_id']; ?></span></p>
           <p>name : <span><?= $fetch_booking['name']; ?></span></p>
           <p>email : <span><?= $fetch_booking['email']; ?></span></p>
           <p>number : <span><?= $fetch_booking['number']; ?></span></p>
@@ -104,7 +105,6 @@ $select_bookings -> execute();
           <p>rooms : <span><?= $fetch_booking['rooms']; ?></span></p>
           <p>adults : <span><?= $fetch_booking['adults']; ?></span></p>
           <p>children : <span><?= $fetch_booking['children']; ?></span></p>
-          <p>booking ID : <span><?= $fetch_booking['booking_id']; ?></span></p>
           <form action="" method="POST">
             <input type="hidden" name="booking_id" value="<?= $fetch_booking['booking_id']; ?>">
             <input type="submit" value="cancel booking" name="cancel" class="btn" onclick="return confirm('cancel this booking?');">

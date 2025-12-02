@@ -460,9 +460,6 @@ if(isset($_POST['send'])) {
     </section>
     <!-- contact section ends -->
 
-    <?php include("bookings.php") ?>
-
-
     <!-- review section starts -->
     <section class="reviews" id="reviews">
       <div class="swiper3 reviews-slider">

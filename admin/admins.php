@@ -48,7 +48,7 @@ if (isset($_POST['delete'])) {
 
     <!-- admins section starts -->
     <section class="grid">
-        <h1 class="heading">bookings</h1>
+        <h1 class="heading">admins</h1>
 
         <div class="box-container">
             <div class="box" style="text-align: center;">

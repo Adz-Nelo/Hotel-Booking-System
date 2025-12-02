@@ -44,7 +44,7 @@ if (isset($_POST['delete'])) {
     <?php include("../components/admin_header.php"); ?>
     <!-- header section ends -->
 
-    <!-- header section starts -->
+    <!-- bookings section starts -->
     <section class="grid">
       <h1 class="heading">bookings</h1>
 
@@ -64,6 +64,7 @@ if (isset($_POST['delete'])) {
             <p>number : <span><?= $fetch_bookings['number']; ?></span></p>
             <p>check in : <span><?= $fetch_bookings['check_in']; ?></span></p>
             <p>check out : <span><?= $fetch_bookings['check_out']; ?></span></p>
+            <p>rooms : <span><?= $fetch_bookings['rooms']; ?></span></p>
             <p>adults : <span><?= $fetch_bookings['adults']; ?></span></p>
             <p>children : <span><?= $fetch_bookings['children']; ?></span></p>
 
@@ -79,7 +80,7 @@ if (isset($_POST['delete'])) {
         ?>
 
         <div class="box" style="text-align: center;">
-          <p style="padding-bottom: .5rem;">no bookings found!</p>
+          <p>no bookings found!</p>
           <a href="dashboard.php" class="btn">go to home</a>
         </div>
 
@@ -89,7 +90,7 @@ if (isset($_POST['delete'])) {
 
       </div>
     </section> 
-    <!-- header section ends -->
+    <!-- bookings section ends -->
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="../js/admin_script.js" type="text/javascript"></script>
