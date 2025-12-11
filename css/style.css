@@ -9,9 +9,10 @@
     --text-muted: #b8b8b8;
     --white: #ffffff;
     --border: 0.1rem solid rgba(212, 175, 55, 0.2);
-    --shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.5);
-    --gradient-overlay: linear-gradient(135deg, rgba(10, 17, 40, 0.95), rgba(26, 34, 56, 0.85));
+    /* Simplified shadows for better performance */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 * {
@@ -28,9 +29,10 @@
     color: var(--main-color);
 }
 
+/* Optimize scrollbar */
 *::-webkit-scrollbar {
-    height: 0.5rem;
-    width: 0.8rem;
+    height: 6px;
+    width: 8px;
 }
 
 *::-webkit-scrollbar-track {
@@ -38,8 +40,8 @@
 }
 
 *::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--accent-color), var(--accent-hover));
-    border-radius: 5rem;
+    background-color: var(--accent-color);
+    border-radius: 4px;
 }
 
 html {
@@ -50,13 +52,14 @@ html {
 }
 
 body {
-    background: linear-gradient(135deg, #0a1128 0%, #1a2238 100%);
+    background: var(--main-color);
     font-family: 'Poppins', sans-serif;
     color: var(--text-light);
-    position: relative;
     min-height: 100vh;
+    position: relative;
 }
 
+/* Remove heavy gradient overlays and use simpler background */
 body::before {
     content: '';
     position: fixed;
@@ -64,82 +67,71 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
     pointer-events: none;
-    z-index: 0;
+    z-index: -1;
 }
 
+/* Optimize sections */
 section {
-    padding: 6rem 2rem;
+    padding: 4rem 2rem;
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
     position: relative;
-    z-index: 1;
 }
 
+/* Optimize buttons - reduce layers and animations */
 .btn {
     display: inline-block;
     cursor: pointer;
-    padding: 1.4rem 4rem;
+    padding: 1.2rem 3.5rem;
     font-size: 1.6rem;
     font-weight: 600;
     color: var(--main-color);
     text-align: center;
     text-transform: uppercase;
-    letter-spacing: 0.1rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.05rem;
+    transition: all 0.3s ease;
     margin-top: 1rem;
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    background: var(--accent-color);
     border-radius: 0.5rem;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 0.4rem 1.5rem rgba(212, 175, 55, 0.3);
+    box-shadow: var(--shadow);
     font-family: 'Poppins', sans-serif;
+    /* Use will-change for better animation performance */
+    will-change: transform, box-shadow;
 }
 
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.6s;
-}
-
-.btn:hover::before {
-    left: 100%;
-}
-
+/* Simplify hover effects */
 .btn:hover {
-    transform: translateY(-0.3rem);
-    box-shadow: 0 0.8rem 2.5rem rgba(212, 175, 55, 0.5);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: var(--accent-hover);
 }
 
 .btn:active {
-    transform: translateY(-0.1rem);
+    transform: translateY(0);
 }
 
-/* Header Styles */
+/* Optimize Header */
 .header {
-    padding: 0;
     position: sticky;
     top: 0;
-    background: rgba(10, 17, 40, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(10, 17, 40, 0.98);
+    backdrop-filter: blur(8px);
     z-index: 1000;
-    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
-    border-bottom: 0.1rem solid rgba(212, 175, 55, 0.1);
+    box-shadow: var(--shadow);
+    border-bottom: var(--border);
 }
 
 .header .flex {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
     padding: 1.5rem 2rem;
     max-width: 1400px;
     margin: 0 auto;
@@ -147,74 +139,61 @@ section {
 
 .header .flex .logo {
     font-family: 'Playfair Display', serif;
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--accent-color);
     letter-spacing: 0.1rem;
 }
 
 .header .flex .fa-bars {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     cursor: pointer;
     color: var(--accent-color);
     display: none;
     transition: transform 0.3s ease;
 }
 
-.header .flex .fa-bars.active {
-    transform: rotate(90deg);
-}
-
 .header .navbar {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    gap: 0.5rem;
-    background: rgba(26, 34, 56, 0.5);
-    padding: 0.8rem;
+    gap: 1rem;
+    background: rgba(26, 34, 56, 0.7);
+    padding: 0.5rem;
     border-radius: 5rem;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
 }
 
 .header .navbar a {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     font-weight: 500;
     color: var(--text-light);
-    padding: 1rem 2.5rem;
+    padding: 0.8rem 2rem;
     border-radius: 5rem;
-    transition: all 0.3s ease;
-    letter-spacing: 0.05rem;
+    transition: all 0.2s ease;
 }
 
 .header .navbar a:hover {
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    background: var(--accent-color);
     color: var(--main-color);
-    transform: translateY(-0.2rem);
 }
 
-/* Home Section */
+/* Optimize Home Section */
 .home .box {
     position: relative;
     overflow: hidden;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     box-shadow: var(--shadow-lg);
 }
 
 .home .box img {
-    border-radius: 1.5rem;
-    height: 80vh;
+    border-radius: 1rem;
+    height: 60vh;
     width: 100%;
     display: block;
-    margin: 0 auto;
     object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.home .box:hover img {
-    transform: scale(1.05);
+    /* Optimize image rendering */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
 }
 
 .home .box .flex {
@@ -225,102 +204,120 @@ section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
-    flex-wrap: wrap;
-    padding: 3rem;
+    padding: 2rem;
     background: linear-gradient(to top, rgba(10, 17, 40, 0.95), transparent);
 }
 
 .home .box .flex h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: 700;
     color: var(--white);
-    text-transform: capitalize;
-    text-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Optimize Swiper */
 .swiper-button-next,
 .swiper-button-prev {
-    padding: 1rem;
+    padding: 0.8rem;
     background: rgba(212, 175, 55, 0.9);
-    backdrop-filter: blur(10px);
-    border-radius: 20%;
-    top: 50%;
-    transition: all 0.3s ease;
-    opacity: .9;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    transition: all 0.2s ease;
 }
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-    color: var(--main-color);
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
+    color: var(--main-color);
 }
 
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-    background: var(--accent-hover);
-    transform: scale(1.1);
-}
-
-/* Availability Section */
-.availability {
-    background: rgba(26, 34, 56, 0.5);
-    backdrop-filter: blur(10px);
-    border-radius: 1.5rem;
-    padding: 4rem;
+/* Optimize Cards and Boxes */
+.availability,
+.services .box-container .box,
+.reservation form,
+.contact .row form,
+.reviews .box {
+    background: rgba(26, 34, 56, 0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 1rem;
+    border: var(--border);
     box-shadow: var(--shadow);
-    border: 0.1rem solid rgba(212, 175, 55, 0.1);
+    /* Hardware acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-.availability form .flex {
+/* Simplify hover effects on boxes */
+.services .box-container .box,
+.reviews .box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.services .box-container .box:hover,
+.reviews .box:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Optimize images in services */
+.services .box-container .box img {
+    height: 7rem;
+    margin-bottom: 1.5rem;
+    filter: brightness(0) saturate(100%) invert(73%) sepia(47%) saturate(446%) hue-rotate(7deg) brightness(93%) contrast(92%);
+    /* Simplify animation */
+    transition: transform 0.3s ease;
+}
+
+/* Optimize Gallery */
+.gallery-slider .swiper-slide {
+    width: 100%;
+    max-width: 600px;
+    height: 350px;
+}
+
+.gallery-slider .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+/* Optimize Forms */
+.availability form .flex,
+.reservation form .flex {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1.5rem;
 }
 
-.availability form .flex .box p {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--accent-color);
-    text-transform: uppercase;
-    letter-spacing: 0.1rem;
-    margin-bottom: 0.5rem;
-}
-
-.availability form .flex .box .input {
-    width: 100%;
-    padding: 1.2rem;
+.availability form .flex .box .input,
+.reservation form .flex .box .input,
+.contact .row form .box {
+    padding: 1rem;
     font-size: 1.6rem;
-    background: rgba(10, 17, 40, 0.8);
+    background: rgba(10, 17, 40, 0.9);
     color: var(--text-light);
-    border: 0.2rem solid rgba(212, 175, 55, 0.2);
-    border-radius: 0.8rem;
-    transition: all 0.3s ease;
-}
-
-.availability form .flex .box .input:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 1rem rgba(212, 175, 55, 0.3);
-}
-
-.availability form .flex .box input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1) brightness(1.5);
-    cursor: pointer;
-}
-
-.availability form .btn {
+    border: 0.1rem solid rgba(212, 175, 55, 0.3);
+    border-radius: 0.5rem;
     width: 100%;
-    margin-top: 2rem;
+    transition: border-color 0.2s ease;
 }
 
-/* About Section */
+.availability form .flex .box .input:focus,
+.reservation form .flex .box .input:focus,
+.contact .row form .box:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+/* Optimize About Section */
 .about .row {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
-    text-align: center;
+    gap: 2rem;
     align-items: center;
 }
 
@@ -329,448 +326,96 @@ section {
 }
 
 .about .row .image img {
-    width: 40rem;
-    border-radius: 1.5rem;
-    box-shadow: var(--shadow-lg);
-    transition: transform 0.5s ease;
-}
-
-.about .row .image img:hover {
-    transform: scale(1.03);
+    width: 100%;
+    max-width: 40rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
 }
 
 .about .row .content {
-    margin-right: 6rem;
     flex: 1 1 40rem;
 }
 
 .about .row .content h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-weight: 700;
     color: var(--accent-color);
-    text-transform: capitalize;
-    margin-bottom: 2rem;
-    line-height: 1.2;
+    margin-bottom: 1.5rem;
 }
 
 .about .row .content p {
-    line-height: 2;
-    padding: 1rem 0;
-    font-size: 1.7rem;
+    line-height: 1.8;
+    font-size: 1.6rem;
     color: var(--text-muted);
-    margin-bottom: 2rem;
 }
 
-.about .row.reverse {
-    flex-direction: row-reverse;
-    margin: 3rem 6rem;
-}
-
-/* Services Section */
+/* Optimize Services Grid */
 .services .box-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    gap: 2rem;
 }
 
 .services .box-container .box {
-    background: rgba(26, 34, 56, 0.5);
-    backdrop-filter: blur(10px);
-    padding: 3rem;
-    text-align: center;
-    border-radius: 1.5rem;
-    border: 0.1rem solid rgba(212, 175, 55, 0.1);
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
+    padding: 2.5rem;
 }
 
-.services .box-container .box::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-    transition: all 0.5s ease;
-    opacity: 0;
-}
-
-.services .box-container .box:hover::before {
-    opacity: 1;
-    top: -25%;
-    left: -25%;
-}
-
-.services .box-container .box:hover {
-    transform: translateY(-1rem);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent-color);
-}
-
-.services .box-container .box img {
-    height: 8rem;
-    margin-bottom: 2rem;
-    filter: brightness(0) saturate(100%) invert(73%) sepia(47%) saturate(446%) hue-rotate(7deg) brightness(93%) contrast(92%);
-    transition: transform 0.3s ease;
-}
-
-.services .box-container .box:hover img {
-    transform: scale(1.1) rotateY(360deg);
-}
-
-.services .box-container .box h3 {
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: var(--accent-color);
-    text-transform: capitalize;
-    margin: 1.5rem 0;
-}
-
-.services .box-container .box p {
-    line-height: 2;
-    font-size: 1.5rem;
-    color: var(--text-muted);
-}
-
-/* Reservation Section */
-.reservation form {
-    background: rgba(26, 34, 56, 0.5);
-    backdrop-filter: blur(10px);
-    border: 0.1rem solid rgba(212, 175, 55, 0.2);
-    border-radius: 1.5rem;
-    padding: 4rem;
-    box-shadow: var(--shadow);
-}
-
-.reservation form h3 {
-    font-family: 'Playfair Display', serif;
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-    color: var(--main-color);
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 3rem;
-    border-radius: 1rem;
-    padding: 2rem;
-    text-align: center;
-    text-transform: capitalize;
-    box-shadow: 0 0.5rem 1.5rem rgba(212, 175, 55, 0.3);
-}
-
-.reservation form .flex {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    gap: 2.5rem;
-}
-
-.reservation form .flex .box p {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--accent-color);
-    text-transform: uppercase;
-    letter-spacing: 0.1rem;
-}
-
-.reservation form .flex .box .input {
-    padding: 1.2rem;
-    margin: 1rem 0;
-    background: rgba(10, 17, 40, 0.8);
-    color: var(--text-light);
-    font-size: 1.6rem;
-    width: 100%;
-    border: 0.2rem solid rgba(212, 175, 55, 0.2);
-    border-radius: 0.8rem;
-    transition: all 0.3s ease;
-}
-
-.reservation form .flex .box .input:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 1rem rgba(212, 175, 55, 0.3);
-}
-
-.reservation form .flex .box input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1) brightness(1.5);
-}
-
-.reservation form .btn {
-    width: 100%;
-    margin-top: 2rem;
-}
-
-/* Gallery Section */
-.gallery {
-    padding: 8rem 2rem;
-}
-
-.gallery-slider {
-    width: 100%;
-    padding: 50px 0;
-}
-
-.gallery-slider .swiper-slide {
-    width: 600px;
-    height: 400px;
-}
-
-.gallery-slider .swiper-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: .5rem;
-    transition: transform .4s ease;
-}
-
-.gallery-slider .swiper-slide:hover img {
-    transform: scale(1.05);
-}
-
-.swiper-pagination-bullet {
-    background: var(--accent-color);
-    opacity: 0.5;
-    width: 1.2rem;
-    height: 1.2rem;
-}
-
-.swiper-pagination-bullet-active {
-    opacity: 1;
-    background: var(--accent-hover);
-}
-
-/* Contact Section */
-.contact .row {
-    display: flex;
-    gap: 4rem;
-    flex-wrap: wrap;
-}
-
-.contact .row form {
-    flex: 1 1 45rem;
-    background: rgba(26, 34, 56, 0.5);
-    backdrop-filter: blur(10px);
-    border: 0.1rem solid rgba(212, 175, 55, 0.2);
-    border-radius: 1.5rem;
-    padding: 3rem;
-    box-shadow: var(--shadow);
-}
-
-.contact .row .faq {
-    flex: 1 1 45rem;
-}
-
-.contact .row form h3 {
-    margin-bottom: 2rem;
-    border-radius: 1rem;
-    padding: 2rem;
-    color: var(--main-color);
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-transform: capitalize;
-    box-shadow: 0 0.5rem 1.5rem rgba(212, 175, 55, 0.3);
-}
-
-.contact .row form .box {
-    padding: 1.2rem;
-    margin: 1.5rem 0;
-    font-size: 1.6rem;
-    color: var(--text-light);
-    background: rgba(10, 17, 40, 0.8);
-    width: 100%;
-    border: 0.2rem solid rgba(212, 175, 55, 0.2);
-    border-radius: 0.8rem;
-    transition: all 0.3s ease;
-}
-
-.contact .row form .box:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 1rem rgba(212, 175, 55, 0.3);
-}
-
-.contact .row form .box::placeholder {
-    color: rgba(184, 184, 184, 0.6);
-}
-
-.contact .row form textarea {
-    height: 15rem;
-    resize: none;
-}
-
-.contact .row .faq .title {
-    margin-bottom: 3rem;
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--accent-color);
-    text-transform: capitalize;
-    text-align: center;
-}
-
+/* Optimize FAQ */
 .contact .row .faq .box {
-    border-radius: 1rem;
-    border: 0.1rem solid rgba(212, 175, 55, 0.2);
-    margin-top: 2rem;
+    border-radius: 0.8rem;
+    border: var(--border);
+    margin-top: 1.5rem;
+    background: rgba(26, 34, 56, 0.7);
+    backdrop-filter: blur(8px);
     overflow: hidden;
-    background: rgba(26, 34, 56, 0.5);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-}
-
-.contact .row .faq .box:hover {
-    box-shadow: var(--shadow);
 }
 
 .contact .row .faq .box h3 {
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    background: var(--accent-color);
     color: var(--main-color);
-    padding: 2rem;
-    font-size: 1.8rem;
+    padding: 1.5rem;
+    font-size: 1.7rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.contact .row .faq .box h3::after {
-    content: '+';
-    font-size: 2.5rem;
-    transition: transform 0.3s ease;
-}
-
-.contact .row .faq .box.active h3::after {
-    transform: rotate(45deg);
-}
-
-.contact .row .faq .box p {
-    padding: 2rem;
-    line-height: 2;
-    font-size: 1.6rem;
-    color: var(--text-muted);
-    display: none;
-    animation: fadeIn 0.3s ease;
-}
-
-.contact .row .faq .box.active p {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-1rem);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Reviews Section */
-.reviews {
-    padding: 8rem 2rem;
-}
-
-.reviews .box {
-    background: rgba(26, 34, 56, 0.5);
-    backdrop-filter: blur(10px);
-    border: 0.1rem solid rgba(212, 175, 55, 0.2);
-    border-radius: 1.5rem;
-    padding: 3rem;
-    text-align: center;
-    user-select: none;
-    margin-bottom: 4rem;
-    transition: all 0.4s ease;
-}
-
-.reviews .box:hover {
-    transform: translateY(-1rem);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent-color);
-}
-
-.reviews .box img {
-    height: 10rem;
-    width: 10rem;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 1.5rem;
-    border: 0.3rem solid var(--accent-color);
-    box-shadow: 0 0.5rem 1.5rem rgba(212, 175, 55, 0.3);
-}
-
-.reviews .box h3 {
-    margin: 1.5rem 0;
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: var(--accent-color);
-}
-
-.reviews .box p {
-    line-height: 2;
-    font-size: 1.6rem;
-    color: var(--text-muted);
-}
-
-/* Footer */
+/* Optimize Footer */
 .footer {
-    background: rgba(10, 17, 40, 0.95);
-    border-top: 0.1rem solid rgba(212, 175, 55, 0.2);
+    background: rgba(10, 17, 40, 0.98);
+    border-top: var(--border);
 }
 
 .footer .box-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-    gap: 3rem;
-    padding-bottom: 4rem;
-}
-
-.footer .box-container .box a {
-    display: block;
-    font-size: 1.6rem;
-    color: var(--text-muted);
-    padding: 1rem 0;
-    transition: all 0.3s ease;
-}
-
-.footer .box-container .box a:hover {
-    color: var(--accent-color);
-    transform: translateX(1rem);
-}
-
-.footer .box-container .box:first-child i {
-    margin-right: 1rem;
-    color: var(--accent-color);
-}
-
-.footer .box-container .box:nth-child(2) {
-    text-align: center;
-}
-
-.footer .box-container .box:last-child {
-    text-align: right;
-}
-
-.footer .box-container .box:last-child i {
-    margin-left: 1rem;
-    color: var(--accent-color);
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    gap: 2rem;
+    padding: 3rem 0;
 }
 
 .footer .credit {
-    border-radius: 1rem;
-    padding: 2.5rem;
+    padding: 2rem;
     text-align: center;
     color: var(--main-color);
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-    font-size: 1.8rem;
+    background: var(--accent-color);
+    font-size: 1.6rem;
     font-weight: 600;
-    box-shadow: 0 0.5rem 1.5rem rgba(212, 175, 55, 0.3);
 }
 
-/* Media Queries */
+/* Remove expensive animations and effects */
+.btn::before,
+.services .box-container .box::before,
+.home .box img,
+.about .row .image img {
+    /* Remove expensive animations */
+    animation: none;
+    transition-duration: 0.3s;
+}
+
+/* Optimize for mobile */
 @media (max-width: 991px) {
     html {
         font-size: 55%;
@@ -780,39 +425,38 @@ section {
         display: inline-block;
     }
 
-    .header .flex .btn {
-        display: none;
-    }
-
     .header .navbar {
         position: absolute;
         top: 100%;
-        left: 2rem;
-        right: 2rem;
+        left: 1rem;
+        right: 1rem;
         background: rgba(26, 34, 56, 0.98);
-        backdrop-filter: blur(10px);
-        border: 0.1rem solid rgba(212, 175, 55, 0.2);
         flex-direction: column;
-        padding: 2rem;
+        padding: 1.5rem;
         clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-        border-radius: 1rem;
+        border-radius: 0.8rem;
         box-shadow: var(--shadow-lg);
+        display: none;
     }
 
     .header .navbar.active {
+        display: flex;
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
 
     .header .navbar a {
-        display: block;
-        margin: 1rem 0;
-        text-align: center;
         width: 100%;
-        padding: 1.5rem;
+        text-align: center;
+        padding: 1.2rem;
     }
 
     section {
-        padding: 4rem 2rem;
+        padding: 3rem 1.5rem;
+    }
+
+    /* Reduce image sizes on mobile */
+    .home .box img {
+        height: 40vh;
     }
 }
 
@@ -821,21 +465,23 @@ section {
         font-size: 52%;
     }
 
-    .home .box img {
-        height: 50vh;
-    }
-
     .home .box .flex h3 {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 
     .about .row .content h3 {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 
-    .reservation form,
-    .availability {
-        padding: 2.5rem;
+    .services .box-container,
+    .availability form .flex,
+    .reservation form .flex {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .gallery-slider .swiper-slide {
+        height: 250px;
     }
 }
 
@@ -845,34 +491,57 @@ section {
     }
 
     .header .flex .logo {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
 
     .home .box img {
-        height: 35rem;
+        height: 30vh;
     }
 
     .home .box .flex {
-        padding: 2rem;
+        padding: 1.5rem;
     }
 
     .home .box .flex h3 {
-        font-size: 2.5rem;
-    }
-
-    .header .navbar {
-        left: 1rem;
-        right: 1rem;
-    }
-
-    .reservation form,
-    .availability,
-    .contact .row form {
-        padding: 2rem;
+        font-size: 2rem;
     }
 
     .btn {
-        padding: 1.2rem 3rem;
-        font-size: 1.5rem;
+        padding: 1rem 2.5rem;
+        font-size: 1.4rem;
+    }
+
+    .footer .box-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+/* Add performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Optimize for high DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body::before {
+        /* Simplify background for high DPI */
+        background: transparent;
+    }
+}
+
+/* Reduce animations on low-powered devices */
+@media (max-width: 1024px) and (hover: none) and (pointer: coarse) {
+    .btn:hover,
+    .services .box-container .box:hover,
+    .reviews .box:hover {
+        transform: none;
     }
 }

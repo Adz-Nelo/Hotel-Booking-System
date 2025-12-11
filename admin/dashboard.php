@@ -22,6 +22,7 @@ if (isset($_COOKIE['admin_id'])) {
 
     <link rel="stylesheet" href="../css/admin_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="../img/MyLogo.webp" type="image/png">
 </head>
 
 <body>
@@ -89,8 +90,8 @@ if (isset($_COOKIE['admin_id'])) {
             <div class="box">
                 <h3>quick select</h3>
                 <p>login or register</p>
-                <a href="login.php" class="btn" style="margin-right: 1rem;">login</a>
-                <a href="register.php" class="btn" style="margin-left: 1rem;">register</a>
+                <a href="login.php" class="btn">login</a>
+                <a href="register.php" class="btn">register</a>
             </div>
         </div>
     </section>

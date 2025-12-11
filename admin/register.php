@@ -42,7 +42,7 @@ if(isset($_POST['submit'])) {
     <title>Register</title>
 
     <link rel="stylesheet" href="../css/admin_style.css">
-    
+    <link rel="icon" href="../img/MyLogo.webp" type="image/webp">     
 </head>
 <body>
     <!-- header section starts -->
