@@ -1,7 +1,7 @@
 <!-- header section start -->
 <section class="header">
     <div class="flex">
-    <a href="#home" class="logo">Hotels and Resorts</a>
+    <a href="#home" class="logo">&nbsp;Hotels and Resorts</a>
     <a href="#availability" class="btn">Check Availability</a>
     <div id="menu-btn" class="fas fa-bars" style="color: var(--sub-color)"></div>
     </div>
