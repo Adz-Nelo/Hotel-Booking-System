@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mysql -u root -e \"SELECT id, name, password FROM hotel_db.admins;\")",
+      "Bash(mysql -u root -e \"SHOW DATABASES;\")",
+      "Bash(\"/c/xampp/mysql/bin/mysql\" -u root -e \"SHOW DATABASES;\")",
+      "Bash(\"/c/xampp/mysql/bin/mysql\" -u root -e \"SELECT id, name, password FROM hotel_db.admins;\")",
+      "Bash(/c/xampp/php/php -r 'var_dump\\(password_verify\\('\\\\''123'\\\\'', '\\\\''$2y$10$v/CVXeQL9vHTnHnsRJg6Bu9ilHZbgVgkbOxFlkcOUzR'\\\\''\\)\\);')",
+      "Bash(\"/c/xampp/mysql/bin/mysql\" -u root -e \"SELECT id, name, LENGTH\\(password\\), password FROM hotel_db.admins WHERE name='admin';\")",
+      "Bash(\"/c/xampp/mysql/bin/mysql\" -u root -e \"SHOW COLUMNS FROM hotel_db.admins;\")",
+      "Bash(\"/c/xampp/mysql/bin/mysql\" -u root -e \"ALTER TABLE hotel_db.admins MODIFY password VARCHAR\\(255\\) NOT NULL;\")",
+      "Bash(\"/c/xampp/php/php\" -r \"echo password_hash\\('123', PASSWORD_BCRYPT\\);\")",
+      "Bash(/c/xampp/mysql/bin/mysql -u root -e 'UPDATE hotel_db.admins SET password='\\\\''__TRACKED_VAR__'\\\\'' WHERE name='\\\\''admin'\\\\'';')",
+      "Bash(\"/c/xampp/mysql/bin/mysql\" -u root -e \"SELECT id, name, LENGTH\\(password\\) FROM hotel_db.admins;\")"
+    ]
+  }
+}

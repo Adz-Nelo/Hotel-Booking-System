@@ -6,12 +6,12 @@ if(isset($_POST['submit'])) {
     $name = htmlspecialchars($_POST['name']);
     $password = htmlspecialchars($_POST['password']);
 
-    $select_admins = $conn -> prepare("SELECT * FROM `admins` WHERE name = ? AND password = ? LIMIT 1");
-    $select_admins -> execute([$name, $password]);
+    $select_admins = $conn -> prepare("SELECT * FROM `admins` WHERE name = ? LIMIT 1");
+    $select_admins -> execute([$name]);
 
     $row = $select_admins -> fetch(PDO::FETCH_ASSOC);
 
-    if($select_admins -> rowCount() > 0) {
+    if($row && password_verify($password, $row['password'])) {
         setcookie('admin_id', $row['id'], time() + 60*60*24*30, '/');
         header('location:dashboard.php');
     } else {
